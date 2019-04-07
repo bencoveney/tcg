@@ -1,11 +1,10 @@
 import React from "react";
-import Cards from "./cards";
+import Game from "./game";
+
 const App = () => (
-  <div className="row mt-5">
-    <div className="col-md-4 offset-md-1">
-    <h2>Articles</h2>
-      <Cards />
-    </div>
+  <div>
+    <Game />
   </div>
 );
+
 export default App;
