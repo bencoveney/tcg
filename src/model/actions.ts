@@ -26,15 +26,99 @@ interface AddPlayerAction extends ActionOfType<ActionTypes.AddPlayer> {
 
 export const addPlayer = (player: Player): AddPlayerAction => {
   return {
-    type: ActionTypes.AddPlayer, player
-  }
+    type: ActionTypes.AddPlayer,
+    player
+  };
+};
+
+interface IncreasePlayerHealthAction
+  extends ActionOfType<ActionTypes.IncreasePlayerHealth> {
+  player: Player;
+  amount: number;
+}
+
+export const increasePlayerHealth = (
+  player: Player,
+  amount: number
+): IncreasePlayerHealthAction => {
+  return {
+    type: ActionTypes.IncreasePlayerHealth,
+    player,
+    amount
+  };
+};
+
+interface DecreasePlayerHealthAction
+  extends ActionOfType<ActionTypes.DecreasePlayerHealth> {
+  player: Player;
+  amount: number;
+}
+
+export const decreasePlayerHealth = (
+  player: Player,
+  amount: number
+): DecreasePlayerHealthAction => {
+  return {
+    type: ActionTypes.DecreasePlayerHealth,
+    player,
+    amount
+  };
+};
+
+interface IncreaseCardHealthAction
+  extends ActionOfType<ActionTypes.IncreaseCardHealth> {
+  card: Card;
+  amount: number;
+}
+
+export const increaseCardHealth = (
+  card: Card,
+  amount: number
+): IncreaseCardHealthAction => {
+  return {
+    type: ActionTypes.IncreaseCardHealth,
+    card,
+    amount
+  };
+};
+
+interface DecreaseCardHealthAction
+  extends ActionOfType<ActionTypes.DecreaseCardHealth> {
+  card: Card;
+  amount: number;
+}
+
+export const decreaseCardHealth = (
+  card: Card,
+  amount: number
+): DecreaseCardHealthAction => {
+  return {
+    type: ActionTypes.DecreaseCardHealth,
+    card,
+    amount
+  };
+};
+
+interface AttackPlayerAction extends ActionOfType<ActionTypes.AttackPlayer> {
+  card: Card;
+  player: Player;
+}
+
+export const attackPlayer = (
+  card: Card,
+  player: Player
+): AttackPlayerAction => {
+  return {
+    type: ActionTypes.AttackPlayer,
+    card,
+    player
+  };
 };
 
 interface AddCardAction extends ActionOfType<ActionTypes.AddCard> {
   player: Player;
   card: Card;
 }
-
 
 export const addCard = (player: Player, card: Card): AddCardAction => {
   return { type: ActionTypes.AddCard, player, card };

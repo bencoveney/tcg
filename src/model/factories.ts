@@ -7,10 +7,11 @@ function getId(name: string) {
   return `${name}-${currentId}`;
 }
 
-export function playerFactory(name: string): Player {
+export function playerFactory(name: string, health: number): Player {
   return {
     id: getId("player"),
     name,
+    health,
     battlefield: [],
     discard: [],
     hand: [],
@@ -18,9 +19,15 @@ export function playerFactory(name: string): Player {
   };
 }
 
-export function cardFactory(title: string): Card {
+export function cardFactory(
+  title: string,
+  health: number,
+  attack: number
+): Card {
   return {
     id: getId("card"),
-    title
+    title,
+    health,
+    attack
   };
 }

@@ -8,6 +8,8 @@ export type Id = {
 
 export type Card = {
   title: string;
+  health: number;
+  attack: number;
 } & Id;
 
 export type Player = {
@@ -16,6 +18,7 @@ export type Player = {
   library: Card[];
   discard: Card[];
   battlefield: Card[];
+  health: number;
 } & Id;
 
 export type State = {

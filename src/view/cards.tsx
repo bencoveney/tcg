@@ -1,12 +1,13 @@
 import React from "react";
-import { Card } from "../model/state";
+import { Card as CardModel } from "../model/state";
+import Card from "./card";
 
-type Props = { cards: Card[] };
+type Props = { cards: CardModel[] };
 
 const Cards = ({ cards }: Props) => (
   <ul>
     {cards.map(card => (
-      <li key={card.id}>{card.title}</li>
+      <li key={card.id}><Card card={card} /></li>
     ))}
   </ul>
 );
