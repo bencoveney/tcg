@@ -1,13 +1,18 @@
 import React from "react";
 import { Card as CardModel } from "../model/state";
 import Card from "./card";
+import { Action } from "./actionButton";
 
-type Props = { cards: CardModel[] };
+export type CardAction = (card: CardModel) => Action;
 
-const Cards = ({ cards }: Props) => (
+type Props = { cards: CardModel[]; actions: CardAction[] };
+
+const Cards = ({ cards, actions }: Props) => (
   <ul>
     {cards.map(card => (
-      <li key={card.id}><Card card={card} /></li>
+      <li key={card.id}>
+        <Card card={card} actions={actions.map(action => action(card))} />
+      </li>
     ))}
   </ul>
 );
