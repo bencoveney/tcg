@@ -15,7 +15,9 @@ import {
   DrawCardAction,
   PlayCardAction,
   DiscardCardAction,
-  KillCardAction
+  KillCardAction,
+  advancePhase,
+  AdvancePhaseAction
 } from "../model/actions";
 import ActionButton from "./actionButton";
 
@@ -26,6 +28,7 @@ type DispatchProps = {
   playCard: (player: PlayerModel, card: CardModel) => PlayCardAction;
   discardCard: (player: PlayerModel, card: CardModel) => DiscardCardAction;
   killCard: (player: PlayerModel, card: CardModel) => KillCardAction;
+  advancePhase: () => AdvancePhaseAction;
 };
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = state =>
@@ -41,7 +44,8 @@ const mapDispatchToProps: MapDispatchToProps<
     discardCard: (player: PlayerModel, card: CardModel) =>
       dispatch(discardCard(player, card)),
     killCard: (player: PlayerModel, card: CardModel) =>
-      dispatch(killCard(player, card))
+      dispatch(killCard(player, card)),
+    advancePhase: () => dispatch(advancePhase())
   };
 };
 
@@ -49,12 +53,16 @@ type AllProps = OwnProps & StateProps & DispatchProps;
 
 const Game_ = ({
   players,
+  currentPhase,
   drawCard,
   playCard,
   discardCard,
-  killCard
+  killCard,
+  advancePhase
 }: AllProps) => (
   <div>
+    <span>Current Phase: {currentPhase && currentPhase.phase || "None"}</span>
+    <ActionButton text={"Advance Phase"} action={() => advancePhase()} />
     {players.map(player => {
       const playerPlayCard = (card: CardModel) => playCard(player, card);
       const playerDiscardCard = (card: CardModel) => discardCard(player, card);

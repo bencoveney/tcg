@@ -13,7 +13,8 @@ export type AllActions =
   | PlayCardAction
   | DiscardCardAction
   | KillCardAction
-  | ShuffleLibaryAction;
+  | ShuffleLibaryAction
+  | AdvancePhaseAction;
 
 interface ActionOfType<ActionType extends ActionTypes>
   extends Action<ActionTypes> {
@@ -165,4 +166,11 @@ export interface ShuffleLibaryAction extends ActionOfType<ActionTypes.ShuffleLib
 
 export const shuffleLibrary = (player: Player): ShuffleLibaryAction => {
   return { type: ActionTypes.ShuffleLibrary, player };
+};
+
+export interface AdvancePhaseAction extends ActionOfType<ActionTypes.AdvancePhase> {
+}
+
+export const advancePhase = (): AdvancePhaseAction => {
+  return { type: ActionTypes.AdvancePhase };
 };

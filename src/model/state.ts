@@ -1,3 +1,5 @@
+import { Phases } from "./constants";
+
 /*
 	Structure of the state model.
 */
@@ -23,4 +25,8 @@ export type Player = {
 
 export type State = {
   players: Player[];
+  currentPhase?: {
+    phase: Phases;
+    playerId: string;
+  }
 };

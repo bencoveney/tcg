@@ -1,6 +1,6 @@
-import { ActionTypes } from "./constants";
+import { ActionTypes, phaseOrder, Phases } from "./constants";
 import { Reducer, Action } from "redux";
-import { State, Card } from "./state";
+import { State, Card, Player } from "./state";
 import { AllActions } from "./actions";
 
 const initialState: State = { players: [] };
@@ -59,7 +59,9 @@ const rootReducer: Reducer<State, AllActions> = (
             return player;
           }
 
-          const newHand = player.hand.filter(card => card.id !== action.card.id);
+          const newHand = player.hand.filter(
+            card => card.id !== action.card.id
+          );
           const newBattlefield = player.battlefield.concat(action.card);
 
           return {
@@ -70,41 +72,45 @@ const rootReducer: Reducer<State, AllActions> = (
         })
       };
 
-      case ActionTypes.DiscardCard:
-        return {
-          players: state.players.map(player => {
-            if (player.id !== action.player.id) {
-              return player;
-            }
+    case ActionTypes.DiscardCard:
+      return {
+        players: state.players.map(player => {
+          if (player.id !== action.player.id) {
+            return player;
+          }
 
-            const newHand = player.hand.filter(card => card.id !== action.card.id);
-            const newDiscard = player.discard.concat(action.card);
+          const newHand = player.hand.filter(
+            card => card.id !== action.card.id
+          );
+          const newDiscard = player.discard.concat(action.card);
 
-            return {
-              ...player,
-              hand: newHand,
-              discard: newDiscard
-            };
-          })
-        };
+          return {
+            ...player,
+            hand: newHand,
+            discard: newDiscard
+          };
+        })
+      };
 
-      case ActionTypes.KillCard:
-        return {
-          players: state.players.map(player => {
-            if (player.id !== action.player.id) {
-              return player;
-            }
+    case ActionTypes.KillCard:
+      return {
+        players: state.players.map(player => {
+          if (player.id !== action.player.id) {
+            return player;
+          }
 
-            const newBattlefield = player.battlefield.filter(card => card.id !== action.card.id);
-            const newDiscard = player.discard.concat(action.card);
+          const newBattlefield = player.battlefield.filter(
+            card => card.id !== action.card.id
+          );
+          const newDiscard = player.discard.concat(action.card);
 
-            return {
-              ...player,
-              battlefield: newBattlefield,
-              discard: newDiscard
-            };
-          })
-        };
+          return {
+            ...player,
+            battlefield: newBattlefield,
+            discard: newDiscard
+          };
+        })
+      };
 
     case ActionTypes.ShuffleLibrary:
       return {
@@ -127,9 +133,45 @@ const rootReducer: Reducer<State, AllActions> = (
         })
       };
 
+    case ActionTypes.AdvancePhase:
+      if (state.players.length == 0) {
+        console.warn("Tried to advance phase with no players");
+        return state;
+      }
+
+      if (!state.currentPhase) {
+        return {
+          ...state,
+          currentPhase: {
+            phase: phaseOrder[0],
+            playerId: state.players[0].id
+          }
+        };
+      } else {
+        return {
+          ...state,
+          currentPhase: {
+            phase: getNextPhase(state.currentPhase.phase),
+            playerId: getNextPlayer(state.currentPhase.playerId, state.players)
+          }
+        };
+      }
+
     default:
       return state;
   }
 };
+
+function getNextPhase(phase: Phases): Phases {
+  const currentIndex = phaseOrder.indexOf(phase);
+  const nextIndex = (currentIndex + 1) % phaseOrder.length;
+  return phaseOrder[nextIndex];
+}
+
+function getNextPlayer(playerId: string, players: Player[]): string {
+  const currentIndex = players.findIndex(player => player.id === playerId);
+  const nextIndex = (currentIndex + 1) % players.length;
+  return players[nextIndex].id;
+}
 
 export default rootReducer;
