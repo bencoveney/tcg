@@ -8,44 +8,42 @@ import {
 import Cards from "./cards";
 import Player from "./player";
 import {
-  drawCard,
-  playCard,
-  discardCard,
-  killCard,
   DrawCardAction,
   PlayCardAction,
   DiscardCardAction,
   KillCardAction,
-  advancePhase,
-  AdvancePhaseAction
+  AdvancePhaseAction,
+  AnyAction
 } from "../model/actions";
 import ActionButton from "./actionButton";
+import { ActionTypes } from "../model/constants";
 
 type OwnProps = {};
 type StateProps = State;
 type DispatchProps = {
-  drawCard: (player: PlayerModel) => DrawCardAction;
-  playCard: (player: PlayerModel, card: CardModel) => PlayCardAction;
-  discardCard: (player: PlayerModel, card: CardModel) => DiscardCardAction;
-  killCard: (player: PlayerModel, card: CardModel) => KillCardAction;
-  advancePhase: () => AdvancePhaseAction;
+  drawCard: (player: PlayerModel) => void;
+  playCard: (player: PlayerModel, card: CardModel) => void;
+  discardCard: (player: PlayerModel, card: CardModel) => void;
+  killCard: (player: PlayerModel, card: CardModel) => void;
+  advancePhase: () => void;
 };
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, State> = state =>
   state;
+
 const mapDispatchToProps: MapDispatchToProps<
   DispatchProps,
   OwnProps
-> = dispatch => {
+> = (dispatch: Dispatch<AnyAction>) => {
   return {
-    drawCard: (player: PlayerModel) => dispatch(drawCard(player)),
+    drawCard: (player: PlayerModel) => dispatch({ type: ActionTypes.DrawCard, player }),
     playCard: (player: PlayerModel, card: CardModel) =>
-      dispatch(playCard(player, card)),
+      dispatch({ type: ActionTypes.PlayCard, player, card }),
     discardCard: (player: PlayerModel, card: CardModel) =>
-      dispatch(discardCard(player, card)),
+      dispatch({ type: ActionTypes.DiscardCard, player, card}),
     killCard: (player: PlayerModel, card: CardModel) =>
-      dispatch(killCard(player, card)),
-    advancePhase: () => dispatch(advancePhase())
+      dispatch({ type: ActionTypes.KillCard, player, card }),
+    advancePhase: () => dispatch({ type: ActionTypes.AdvancePhase })
   };
 };
 

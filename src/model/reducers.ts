@@ -1,7 +1,7 @@
 import { ActionTypes, phaseOrder, Phases } from "./constants";
-import { Reducer, Action } from "redux";
-import { State, Card, Player } from "./state";
-import { AllActions } from "./actions";
+import { Reducer } from "redux";
+import { State, Player } from "./state";
+import { AnyAction } from "./actions";
 
 const initialState: State = { players: [] };
 
@@ -9,7 +9,7 @@ const initialState: State = { players: [] };
 	Takes a state + action, and creates a new state.
 */
 
-const rootReducer: Reducer<State, AllActions> = (
+const rootReducer: Reducer<State, AnyAction> = (
   state = initialState,
   action
 ) => {

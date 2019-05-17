@@ -4,26 +4,26 @@ import { Phases } from "./constants";
 	Structure of the state model.
 */
 
-export type Id = {
+export interface Id {
   id: string;
 };
 
-export type Card = {
+export interface Card extends Id {
   title: string;
   health: number;
   attack: number;
-} & Id;
+};
 
-export type Player = {
+export interface Player extends Id {
   name: string;
   hand: Card[];
   library: Card[];
   discard: Card[];
   battlefield: Card[];
   health: number;
-} & Id;
+};
 
-export type State = {
+export interface State {
   players: Player[];
   currentPhase?: {
     phase: Phases;
